@@ -15,6 +15,9 @@ const medicineModel = mongoose.Schema({
     },
     description: {
         type: String
+    },
+    inStocks:{
+        type: String
     }
 },
     {

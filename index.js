@@ -2,12 +2,14 @@ import express from "express";
 import mongoose from "mongoose";
 import { MongoDbUrl } from "./config.js";
 import { PORT } from "./config.js";
+
 import userAuth from './routes/userAuth.js'
+import medicineRoute from './routes/medicineRoute.js'
 import cors from 'cors';
 
 const app = express();
 app.use(express.json()); //middleware for parshing request body
-app.use(cors())
+app.use(cors());
 
 app.get('/', (req,res)=>{
     console.log(req);
@@ -15,6 +17,7 @@ app.get('/', (req,res)=>{
 })
 
 app.use('/user', userAuth);
+app.use('/medicine', medicineRoute);
 
 mongoose.connect(MongoDbUrl)
         .then(()=>{
