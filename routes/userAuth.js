@@ -26,7 +26,7 @@ router.post('/signup', [
         //check whether the user with same email is already exists
         let user = await User.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({success, error: "sorry a user with same email exist" })
+            return res.status(400).json({success, error: "Sorry a user with same email exists" })
         }
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(req.body.password, salt);
