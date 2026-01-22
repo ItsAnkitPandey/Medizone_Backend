@@ -1,5 +1,5 @@
-// Load environment variables if dotenv is configured
-// To use: npm install dotenv, then add: import dotenv from 'dotenv'; dotenv.config();
+import dotenv from 'dotenv'; 
+dotenv.config();
 
 export const PORT = process.env.PORT || 5555;
 export const MongoDbUrl = process.env.MONGODB_URI;

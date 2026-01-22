@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
                 return {
                     _id: category._id,
                     name: category.name,
+                    imgUrl: category.imgUrl,
                     medicineCount: count,
                     createdAt: category.createdAt
                 };

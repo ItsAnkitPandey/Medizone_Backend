@@ -23,14 +23,14 @@ const connectDB = async () => {
 
 // Categories data
 const categories = [
-    { name: 'Headache & Pain' },
-    { name: 'Cold & Flu' },
-    { name: 'Acidity & Digestion' },
-    { name: 'Cough & Throat' },
-    { name: 'Allergy' },
-    { name: 'Skin Care' },
-    { name: 'Liver Care' },
-    { name: 'General Medicine' }
+    { name: 'Headache & Pain', imgUrl: '/images/PersonalCare.jpg' },
+    { name: 'Cold & Flu', imgUrl: '/images/CovidEssentials.jpg' },
+    { name: 'Acidity & Digestion', imgUrl: '/images/Devices.jpg' },
+    { name: 'Cough & Throat', imgUrl: '/images/BabyCare.jpeg' },
+    { name: 'Allergy', imgUrl: '/images/PersonalCare.jpg' },
+    { name: 'Skin Care', imgUrl: '/images/PersonalCare.jpg' },
+    { name: 'Liver Care', imgUrl: '/images/Devices.jpg' },
+    { name: 'General Medicine', imgUrl: '/images/Prescription.jpg' }
 ];
 
 // Medicines data (mapped from frontend Products.js)

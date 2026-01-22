@@ -10,9 +10,10 @@ import passwordResetRoute from './routes/passwordReset.js'
 import cartRoute from './routes/cartRoute.js';
 import orderRoute from './routes/orderRoute.js';
 import categoryRoute from './routes/categoryRoute.js';
+import dotenv from 'dotenv'
 
 const app = express();
-
+dotenv.config()
 // CORS configuration for frontend
 const corsOptions = {
     origin: ['http://localhost:3000', 'https://medzon.netlify.app', 'https://medizone.netlify.app'],

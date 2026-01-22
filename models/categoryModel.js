@@ -6,6 +6,10 @@ const CategoryModel = mongoose.Schema({
         required: true,
         unique: true,
         trim: true
+    },
+    imgUrl:{
+        type: String,
+        default: '/images/Prescription.jpg'
     }
 }, {
     timestamps: true
