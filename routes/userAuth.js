@@ -5,8 +5,12 @@ import fetchUser from '../middleware/fetchuser.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config.js';
+import { OAuth2Client } from 'google-auth-library';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //Route for creating a new user
 router.post('/signup', [
@@ -272,6 +276,67 @@ router.post('/forgot-password', [
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// ROUTE: Google OAuth Login/Signup - POST "/user/google-auth". Public.
+router.post('/google-auth', async (req, res) => {
+    try {
+        const { credential } = req.body;
+
+        // Verify Google token
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        console.log(payload);
+        const { email, name, picture, sub: googleId } = payload;
+
+        // Check if user exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // Create new user with Google data
+            user = await User.create({
+                name,
+                email,
+                password: await bcrypt.hash(googleId, 10), // Use Google ID as password hash
+                profileImage: picture,
+                googleId
+            });
+        } else if (!user.googleId) {
+            // Link Google account to existing user
+            user.googleId = googleId;
+            user.profileImage = picture || user.profileImage;
+            await user.save();
+        }
+
+        // Generate JWT token
+        const data = {
+            user: {
+                id: user.id
+            }
+        };
+        const authtoken = jwt.sign(data, JWT_SECRET, { expiresIn: '1h' });
+
+        return res.status(200).json({
+            success: true,
+            token: authtoken,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                profileImage: user.profileImage
+            }
+        });
+    } catch (error) {
+        console.error('Google auth error:', error);
+        return res.status(401).json({ 
+            success: false, 
+            message: 'Google authentication failed' 
+        });
     }
 });
 

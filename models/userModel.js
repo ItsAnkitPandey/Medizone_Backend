@@ -24,6 +24,14 @@ const userSchema = new Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    googleId: {
+        type: String,
+        default: null
+    },
+    profileImage: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true,
